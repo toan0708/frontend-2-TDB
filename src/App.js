@@ -1,14 +1,14 @@
 import "./App.css";
 import Dashboard from "./admin/Dash";
 import { Routes, Route } from "react-router-dom";
-import AddPersonnel from "./admin/AddPersonnel";
+import AddPersonnel from "./admin/personnel/AddPersonnel";
 import AddList from "./admin/AddList";
 import AddProduct from "./admin/AddProduct";
-import PersonnelList from "./admin/PersonnelList";
+import PersonnelList from "./admin/personnel/PersonnelList";
 import QlProduct from "./admin/QlProduct";
 import QlList from "./admin/QlList";
-import PersonnelEdit from "./admin/PersonnelEdit";
-import UserList from "./admin/UserList";
+import PersonnelEdit from "./admin/personnel/PersonnelEdit";
+import UserList from "./admin/customers/UserList";
 import Qlcomment from "./admin/QlComment";
 import AddComment from "./admin/AddComment";
 import QlOder from "./admin/QlOder";
@@ -28,7 +28,7 @@ function App() {
           <Route path="/addlist" element={<AddList />} />
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/addpersonnel" element={<AddPersonnel />} />
-          <Route path="/personnelEdit" element={<PersonnelEdit />} />
+          <Route path="/personnelEdit/:id" element={<PersonnelEdit />} />
           <Route path="/userList" element={<UserList />} />
           <Route path="/qlcomment" element={<Qlcomment />} />
           <Route path="/addcomment" element={<AddComment />} />
