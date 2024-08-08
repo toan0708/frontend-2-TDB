@@ -5,25 +5,39 @@ import Menu from "../layout/Menu";
 import { Link } from "react-router-dom";
 import { getDocs, collection, deleteDoc, doc } from 'firebase/firestore';
 import { analytics } from '../firebase';
+import ConfirmationModal from '../btn-delete';
 
 function PersonnelList() {
   const [personnels, setPersonnels] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     const fetchPersonnels = async () => {
-      const data = await getDocs(collection(analytics, 'users'));
+      const data = await getDocs(collection(analytics, 'person'));
       setPersonnels(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
     };
 
     fetchPersonnels();
   }, []);
 
-  const deletePersonnel = async (id) => {
-    const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa nhân viên này không?");
-    if (confirmDelete) {
-      await deleteDoc(doc(analytics, 'users', id));
-      setPersonnels(personnels.filter(person => person.id !== id));
+  const handleDeleteClick = (id) => {
+    setSelectedId(id);
+    setShowModal(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (selectedId) {
+      await deleteDoc(doc(analytics, 'person', selectedId));
+      setPersonnels(personnels.filter(person => person.id !== selectedId));
+      setShowModal(false);
+      setSelectedId(null);
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedId(null);
   };
 
   return (
@@ -34,7 +48,7 @@ function PersonnelList() {
         <div className="main-content">
           <div className="section__content section__content--p30">
             <div className="container-fluid">
-              <div className="">
+              <div className="card">
                 <div className="card-header">
                   <div className="row">
                     <div className="col-md-12">
@@ -54,6 +68,7 @@ function PersonnelList() {
                         <table className="table table-hover table-bordered table-striped">
                           <thead className="thead-dark">
                             <tr>
+                              <th scope="col">STT</th>
                               <th scope="col">Tên</th>
                               <th scope="col">Email</th>
                               <th scope="col">SDT</th>
@@ -63,8 +78,9 @@ function PersonnelList() {
                             </tr>
                           </thead>
                           <tbody>
-                            {personnels.map(person => (
+                            {personnels.map((person, index) => (
                               <tr key={person.id}>
+                                <td>{index + 1}</td>
                                 <td>{person.name}</td>
                                 <td><span className="block-email">{person.email}</span></td>
                                 <td>{person.phone}</td>
@@ -81,7 +97,7 @@ function PersonnelList() {
                                     <Link className="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit" to={`/personnelEdit/${person.id}`}>
                                       <i className="zmdi zmdi-edit"></i>
                                     </Link>
-                                    <button className="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete" onClick={() => deletePersonnel(person.id)}>
+                                    <button className="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete" onClick={() => handleDeleteClick(person.id)}>
                                       <i className="zmdi zmdi-delete"></i>
                                     </button>
                                   </div>
@@ -100,6 +116,11 @@ function PersonnelList() {
           </div>
         </div>
       </div>
+      <ConfirmationModal 
+        show={showModal} 
+        handleClose={handleCloseModal} 
+        handleConfirm={handleConfirmDelete} 
+      />
     </div>
   );
 }

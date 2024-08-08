@@ -7,14 +7,14 @@ import Menu from '../layout/Menu';
 import { analytics } from '../firebase';
 import { addDoc, collection } from 'firebase/firestore';
 
-function AddPersonnel() {
+function AddComment() {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const personCollectionRef = collection(analytics, 'person');
+  const commentsCollectionRef = collection(analytics, 'comments');
 
   const onSubmit = async (data) => {
-    await addDoc(personCollectionRef, data);
-    navigate('/personnel');
+    await addDoc(commentsCollectionRef, data);
+    navigate('/qlcomment');
   };
 
   return (
@@ -29,14 +29,14 @@ function AddPersonnel() {
                 <div className="col-lg-12">
                   <div className="card">
                     <div className="card-header">
-                      <strong>Form</strong> thêm nhân viên
+                      <strong>Form</strong> thêm bình luận
                     </div>
                     <div className="card-body card-block">
                       <form onSubmit={handleSubmit(onSubmit)} className="form-horizontal">
                         <div className="row form-group">
                           <div className="col col-md-3">
                             <label htmlFor="name" className="form-control-label">
-                              Tên nhân viên
+                              Tên
                             </label>
                           </div>
                           <div className="col-12 col-md-9">
@@ -46,7 +46,7 @@ function AddPersonnel() {
                               name="name"
                               placeholder="Nhập tên..."
                               className="form-control"
-                              {...register('name', { required: 'Tên phải có ít nhất 5 ký tự.', minLength: 5 })}
+                              {...register('name', { required: 'Tên là bắt buộc.' })}
                             />
                             {errors.name && <small className="form-text text-danger">{errors.name.message}</small>}
                           </div>
@@ -65,7 +65,7 @@ function AddPersonnel() {
                               name="email"
                               placeholder="Nhập email..."
                               className="form-control"
-                              {...register('email', { required: 'Email không hợp lệ.', pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
+                              {...register('email', { required: 'Email là bắt buộc.', pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
                             />
                             {errors.email && <small className="form-text text-danger">{errors.email.message}</small>}
                           </div>
@@ -73,64 +73,45 @@ function AddPersonnel() {
 
                         <div className="row form-group">
                           <div className="col col-md-3">
-                            <label htmlFor="phone" className="form-control-label">
-                              SDT
-                            </label>
-                          </div>
-                          <div className="col-12 col-md-9">
-                            <input
-                              type="text"
-                              id="phone"
-                              name="phone"
-                              placeholder="Nhập sdt..."
-                              className="form-control"
-                              {...register('phone', { required: 'Số điện thoại phải là số và có 10 chữ số.', pattern: /^[0-9]{10}$/ })}
-                            />
-                            {errors.phone && <small className="form-text text-danger">{errors.phone.message}</small>}
-                          </div>
-                        </div>
-
-                        <div className="row form-group">
-                          <div className="col col-md-3">
-                            <label htmlFor="background" className="form-control-label">
-                              Lý lịch
+                            <label htmlFor="comment" className="form-control-label">
+                              Bình luận
                             </label>
                           </div>
                           <div className="col-12 col-md-9">
                             <textarea
-                              name="background"
-                              id="background"
+                              name="comment"
+                              id="comment"
                               rows="9"
-                              placeholder="Lý lịch..."
+                              placeholder="Nhập bình luận..."
                               className="form-control"
-                              {...register('background', { required: 'Lý lịch không được để trống.' })}
+                              {...register('comment', { required: 'Bình luận là bắt buộc.' })}
                             ></textarea>
-                            {errors.background && <small className="form-text text-danger">{errors.background.message}</small>}
+                            {errors.comment && <small className="form-text text-danger">{errors.comment.message}</small>}
                           </div>
                         </div>
 
                         <div className="row form-group">
                           <div className="col col-md-3">
-                            <label htmlFor="position" className="form-control-label">
-                              Chức vụ
+                            <label htmlFor="date" className="form-control-label">
+                              Ngày
                             </label>
                           </div>
                           <div className="col-12 col-md-9">
-                            <select
-                              name="position"
-                              id="position"
+                            <input
+                              type="date"
+                              id="date"
+                              name="date"
+                              placeholder="Chọn ngày..."
                               className="form-control"
-                              {...register('position')}
-                            >
-                              <option value="0">Nhân viên</option>
-                              <option value="1">Quản lí</option>
-                            </select>
+                              {...register('date', { required: 'Ngày là bắt buộc.' })}
+                            />
+                            {errors.date && <small className="form-text text-danger">{errors.date.message}</small>}
                           </div>
                         </div>
 
                         <div className="card-footer">
                           <button type="submit" className="btn btn-primary btn-sm">
-                            <i className="fa fa-dot-circle-o"></i> Lưu
+                            <i className="fa fa-dot-circle-o"></i> Thêm bình luận
                           </button>
                           <button type="button" className="btn btn-secondary btn-sm" onClick={() => navigate(-1)}>
                             <i className="fa fa-arrow-left"></i> Trở về
@@ -150,4 +131,4 @@ function AddPersonnel() {
   );
 }
 
-export default AddPersonnel;
+export default AddComment;

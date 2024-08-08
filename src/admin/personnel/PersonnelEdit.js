@@ -20,7 +20,7 @@ function PersonnelEdit() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const docRef = doc(analytics, 'users', id);
+        const docRef = doc(analytics, 'person', id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setPersonnel(docSnap.data());
@@ -46,7 +46,7 @@ function PersonnelEdit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const docRef = doc(analytics, 'users', id);
+      const docRef = doc(analytics, 'person', id);
       await updateDoc(docRef, personnel);
       navigate('/personnel');
     } catch (error) {

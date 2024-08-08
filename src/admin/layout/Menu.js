@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../../asset/images/icon/logo.jpg"
+import logo from "../../asset/images/icon/logo.png"
 function Menu() {
   return (
     <aside className="menu-sidebar d-none d-lg-block">
@@ -69,9 +69,7 @@ function Menu() {
               </ul>
             </li>
             <li className="has-sub">
-              <a className="js-arrow" href="#">
-                <i className="fas fa-desktop"></i>UI Elements
-              </a>
+              
               <ul className="list-unstyled navbar__sub-list js-sub-list">
                 <li>
                   <a href="button.html">Button</a>
