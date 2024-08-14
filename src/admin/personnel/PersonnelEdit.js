@@ -159,8 +159,11 @@ function PersonnelEdit() {
 
                       <div className="card-footer">
                         <button type="submit" className="btn btn-primary btn-sm">
-                          <i className="fa fa-dot-circle-o"></i> Submit
+                          <i className="fa fa-dot-circle-o"></i> Lưu
                         </button>
+                        <button type="button" className="btn btn-secondary btn-sm" onClick={() => navigate(-1)}>
+                            <i className="fa fa-arrow-left"></i> Trở về
+                          </button>
                       </div>
                     </form>
                   </div>

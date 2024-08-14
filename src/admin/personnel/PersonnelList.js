@@ -124,5 +124,4 @@ function PersonnelList() {
     </div>
   );
 }
-
 export default PersonnelList;
